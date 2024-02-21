@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+
+# Extend the `default` configuration provided by `yamllint`
+extends: default
+rules:
+    indentation:
+        level: warning
+        indent-sequences: consistent
+        spaces: consistent
+    line-length:
+        level: warning
+        max: 100
+    comments:
+        min-spaces-from-content: 1
+        require-starting-space: true
+    document-start:
+        present: false
+    empty-values:
+        forbid-in-block-mappings: true
+        forbid-in-flow-mappings: true

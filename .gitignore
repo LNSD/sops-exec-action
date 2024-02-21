@@ -1,3 +1,7 @@
 ### IDEs and Code Editors
 .idea/
 .vscode/
+
+### Test libs
+test/libs/*
+!test/libs/

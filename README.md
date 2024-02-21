@@ -1,1 +1,1 @@
-# sops-env-action
+# sops-exec-action
