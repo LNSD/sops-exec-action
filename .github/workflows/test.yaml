@@ -1,0 +1,53 @@
+name: test
+on:
+  pull_request:
+  merge_group:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Setup shellcheck
+        run: sudo apt-get install -y shellcheck
+
+      - name: Setup yamllint
+        run: sudo apt-get install -y yamllint
+
+      - name: Setup Bats and bats libs
+        uses: bats-core/bats-action@1.5.4
+        with:
+          # bats-core
+          bats-version: 1.10.0
+          # bats-support
+          support-version: 0.3.0
+          support-path: ${{ github.workspace }}/test/libs/bats-support
+          # bats-assert
+          assert-version: 2.1.0
+          assert-path: ${{ github.workspace }}/test/libs/bats-assert
+          # bats-detik
+          detik-install: false
+          # bats-file
+          file-version: 0.4.0
+          file-path: ${{ github.workspace }}/test/libs/bats-file
+
+      - run: make check
+
+      # TODO: Uncomment when tests are ready
+      #- name: Setup age
+      #  uses: alessiodionisi/setup-age-action@v1.2.1
+      #
+      #- name: Setup sops
+      #  uses: nhedger/setup-sops@v2
+
+      - run: make unittest
+
+      - run: make inttest
+
