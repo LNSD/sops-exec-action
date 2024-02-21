@@ -1,0 +1,30 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    'config:recommended',
+    ':semanticCommits',
+    ':semanticCommitTypeAll(chore)',
+    'helpers:pinGitHubActionDigests'
+  ],
+  timezone: "Europe/Madrid",
+  schedule: [
+    "before 8am on Monday"
+  ],
+  configMigration: true,
+  rebaseStalePrs: true,
+  lockFileMaintenance: {
+    enabled: true,
+    automerge: true,
+    automergeType: "branch"
+  },
+  packageRules: [
+    {
+      matchUpdateTypes: [
+        "minor",
+        "patch"
+      ],
+      matchCurrentVersion: "!/^0/",
+      automerge: true
+    }
+  ]
+}
