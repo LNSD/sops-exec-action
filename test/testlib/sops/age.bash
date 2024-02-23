@@ -44,6 +44,8 @@ sops::encrypt_in_place_with_age() {
     local public_key="$1"
     local file="$2"
 
+    # NB: The '--in-place' flag must be provided before '--encrypt',
+    #     otherwise it is ignored.
     sops --age "$public_key" --in-place --encrypt "$file"
 }
 
@@ -91,5 +93,7 @@ sops::decrypt_in_place_with_age() {
     local private_key="$1"
     local file="$2"
 
+    # NB: The '--in-place' flag must be provided before '--decrypt',
+    #     otherwise it is ignored.
     env SOPS_AGE_KEY="$private_key" sops --in-place --decrypt "$file"
 }
