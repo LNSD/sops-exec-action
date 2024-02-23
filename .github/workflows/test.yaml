@@ -32,9 +32,13 @@ jobs:
 
       - name: Setup age
         uses: alessiodionisi/setup-age-action@v1.2.1
+        with:
+          version: 1.1.1
 
       - name: Setup sops
         uses: nhedger/setup-sops@v2
+        with:
+          version: 3.8.1
 
       - run: make check-testlib
       - run: make test-testlib
