@@ -47,7 +47,7 @@ test: unittest inttest
 
 unittest:	## Run unit tests
 	@echo "Running unit tests..."
-	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) test/*.test.sh
+	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) --pretty test/*.test.sh
 
 inttest:	## Run integration tests
 	@echo "Running integration tests..."
@@ -55,7 +55,7 @@ inttest:	## Run integration tests
 
 test-testlib:	## Run testlib tests
 	@echo "Running testlib tests..."
-	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) test/testlib/**/test/*.test.sh
+	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) --pretty test/testlib/**/test/*.test.sh
 
 
 ## Help:
