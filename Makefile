@@ -12,6 +12,11 @@ SHELLCHECK=shellcheck
 YAMLLINT=yamllint
 BATS=bats
 
+# Set the BATS_LIB_PATH environment variable to where the Bats libraries are installed:
+#  - Locally: '/usr/lib/bats`
+#  - In GHA when using `bats-core/bats-action`: '/usr/lib'
+BATS_LIB_PATH=/usr/lib/bats:/usr/lib
+
 # Targets ########################################################################################
 .PHONY: all lint shellcheck yamllint test unittest inttest help
 .DEFAULT_GOAL := all
@@ -32,29 +37,25 @@ yamllint:	## Lint YAML files (via yamllint)
 	@echo "Linting YAML files..."
 	@$(YAMLLINT) action.yaml
 
+check-testlib:	## Lint testlib shell scripts (via shellcheck)
+	@echo "Linting testlib shell scripts..."
+	@$(SHELLCHECK) -x -s bash test/testlib/**/*.bash
+
 ## Test:
 test:	## Run all available tests
 test: unittest inttest
 
-# Create symlinks to test libraries
-setup-testlibs:
-ifeq ($(CI),true)
-	@echo "Skipping setup as CI environment variable is not set."
-else
-	@echo "Setting up test environment..."
-	@if [ ! -e test/libs/bats-support ]; then ln -sf /usr/lib/bats/bats-support test/libs/bats-support; fi
-	@if [ ! -e test/libs/bats-assert ]; then ln -sf /usr/lib/bats/bats-assert test/libs/bats-assert; fi
-	@if [ ! -e test/libs/bats-file ]; then ln -sf /usr/lib/bats/bats-file test/libs/bats-file; fi
-endif
-
-
-unittest: setup-testlibs	## Run unit tests
+unittest:	## Run unit tests
 	@echo "Running unit tests..."
-	@$(BATS) test/*.test.sh
+	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) test/*.test.sh
 
-inttest:		## Run integration tests
+inttest:	## Run integration tests
 	@echo "Running integration tests..."
 	@echo "No integration tests available."
+
+test-testlib:	## Run testlib tests
+	@echo "Running testlib tests..."
+	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) test/testlib/**/test/*.test.sh
 
 
 ## Help:

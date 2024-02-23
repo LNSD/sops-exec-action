@@ -24,19 +24,14 @@ jobs:
       - name: Setup Bats and bats libs
         uses: bats-core/bats-action@1.5.4
         with:
-          # bats-core
           bats-version: 1.10.0
-          # bats-support
           support-version: 0.3.0
-          support-path: ${{ github.workspace }}/test/libs/bats-support
-          # bats-assert
           assert-version: 2.1.0
-          assert-path: ${{ github.workspace }}/test/libs/bats-assert
-          # bats-detik
           detik-install: false
-          # bats-file
           file-version: 0.4.0
-          file-path: ${{ github.workspace }}/test/libs/bats-file
+
+      - run: make check-testlib
+      - run: make test-testlib
 
       - run: make check
 

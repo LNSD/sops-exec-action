@@ -1,12 +1,16 @@
 #!/usr/bin/env bats
 
 setup() {
-	load 'libs/bats-support/load'
-	load 'libs/bats-assert/load'
+	# Load test libraries
+	bats_load_library 'bats-support'
+	bats_load_library 'bats-assert'
+	bats_load_library 'bats-file'
+
+	load 'testlib/age/load'
 
 	# Get the containing directory of this file. Use $BATS_TEST_FILENAME instead of ${BASH_SOURCE[0]}
 	# or $0, as those will point to the bats executable's location or the preprocessed file respectively
-	DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )"
+	DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")" >/dev/null 2>&1 && pwd)"
 
 	# Make executables in project root visible to PATH
 	PATH="$DIR/..:$PATH"
