@@ -15,7 +15,9 @@ BATS=bats
 # Set the BATS_LIB_PATH environment variable to where the Bats libraries are installed:
 #  - Locally: '/usr/lib/bats`
 #  - In GHA when using `bats-core/bats-action`: '/usr/lib'
-BATS_LIB_PATH=/usr/lib/bats:/usr/lib
+#
+# It should also include the testlib directory.
+BATS_LIB_PATH=/usr/lib/bats:/usr/lib:$(CURDIR)/test/testlib
 
 # Targets ########################################################################################
 .PHONY: all lint shellcheck yamllint test unittest inttest help
