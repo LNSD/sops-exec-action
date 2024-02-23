@@ -30,19 +30,16 @@ jobs:
           detik-install: false
           file-version: 0.4.0
 
+      - name: Setup age
+        uses: alessiodionisi/setup-age-action@v1.2.1
+
+      - name: Setup sops
+        uses: nhedger/setup-sops@v2
+
       - run: make check-testlib
       - run: make test-testlib
 
       - run: make check
-
-      # TODO: Uncomment when tests are ready
-      #- name: Setup age
-      #  uses: alessiodionisi/setup-age-action@v1.2.1
-      #
-      #- name: Setup sops
-      #  uses: nhedger/setup-sops@v2
-
       - run: make unittest
-
       - run: make inttest
 
