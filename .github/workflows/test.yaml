@@ -36,7 +36,7 @@ jobs:
           version: 1.1.1
 
       - name: Setup sops
-        uses: nhedger/setup-sops@v2
+        uses: nhedger/setup-sops@358bac533e4e92f9ce9f9da563d6265929c88cda # v2
         with:
           version: 3.8.1
 
