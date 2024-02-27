@@ -15,8 +15,6 @@ runs:
       id: check-pre-requisites
       shell: bash
       run: |
-        set -eo pipefail
-
         source ./action.sh
 
         action::check_pre_requisites
@@ -26,8 +24,6 @@ runs:
       id: sops-exec
       shell: bash
       run: |
-        set -eo pipefail
-
         source ./action.sh
 
         action::main "${{ inputs.env_file }}" "${{ inputs.run }}"

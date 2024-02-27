@@ -20,7 +20,7 @@ BATS=bats
 BATS_LIB_PATH=/usr/lib/bats:/usr/lib:$(CURDIR)/test/testlib
 
 # Targets ########################################################################################
-.PHONY: all lint shellcheck yamllint test unittest help
+.PHONY: all lint shellcheck yamllint test unittest inttest help
 .DEFAULT_GOAL := all
 
 all: 	## Run all available checks and tests
@@ -45,11 +45,15 @@ check-testlib:	## Lint testlib shell scripts (via shellcheck)
 
 ## Test:
 test:	## Run all available tests
-test: unittest
+test: unittest inttest
 
 unittest:	## Run unit tests
 	@echo "Running unit tests..."
 	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) test/*.test.sh
+
+inttest:	## Run integration tests
+	@echo "Running integration tests..."
+	@env BATS_LIB_PATH=$(BATS_LIB_PATH) $(BATS) test/*.inttest.sh
 
 test-testlib:	## Run testlib tests
 	@echo "Running testlib tests..."

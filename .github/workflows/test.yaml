@@ -45,4 +45,30 @@ jobs:
 
       - run: make check
       - run: make unittest
+      - run: make inttest
+
+  inttest:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Setup age
+        uses: alessiodionisi/setup-age-action@82b9aea163ade7fe23441552a514cf666b214077 # v1.3.0
+        with:
+          version: 1.1.1
+
+      - name: Setup sops
+        uses: nhedger/setup-sops@358bac533e4e92f9ce9f9da563d6265929c88cda # v2
+        with:
+          version: 3.8.1
+
+      # Integration tests
+      - name: Run command with encrypted environment file
+        uses: ./
+        env:
+          SOPS_AGE_KEY_FILE: test/assets/inttest-key.age
+        with:
+          env_file: test/assets/inttest.env
+          run: bash -c '[[ \"\$SECRET_KEY\" == \"YOURSECRETKEYGOESHERE\" && \"\$SECRET_HASH\" == \"something-with-a-#-hash\" ]]'
 
