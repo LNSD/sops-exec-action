@@ -1,39 +1,33 @@
 name: SOPS Exec
-description: Decrypts environment variables using sops
+description: A GitHub Action for securely executing commands with secrets.
+inputs:
+  env_file:
+    description: 'The environment file to decrypt and pass to the command'
+    required: true
+  run:
+    description: 'The command to run'
+    required: true
 runs:
   using: composite
   steps:
     # Check if the required tools are installed and get their versions
-    - name: Check requirements
-      id: check-requirements
+    - name: Check pre-requisites
+      id: check-pre-requisites
       shell: bash
       run: |
+        set -eo pipefail
 
-        ## age
-        if ! command -v age &> /dev/null
-        then
-          echo "::error ::age could not be found"
-          exit 1
-        fi
-        AGE_VERSION=$(age --version)
+        source ./action.sh
 
-        # Write the extracted version to a GitHub output variable
-        echo "age-version=$AGE_VERSION" >> $GITHUB_OUTPUT
-
-        ## sops
-        if ! command -v sops &> /dev/null
-        then
-          echo "::error ::sops could not be found"
-          exit 1
-        fi
-        SOPS_VERSION=$(sops --version)
-
-        # Write the extracted version to a GitHub output variable
-        echo "sops-version=$SOPS_VERSION" >> $GITHUB_OUTPUT
+        action::check_pre_requisites
 
     # Execute the run clause and pass the decrypted environment variables (or file) to it
     - name: Execute the run clause
       id: sops-exec
       shell: bash
       run: |
-        echo "TODO sops exec-env/exec-file ..."
+        set -eo pipefail
+
+        source ./action.sh
+
+        action::main "${{ inputs.env_file }}" "${{ inputs.run }}"
