@@ -27,6 +27,34 @@ _sops::exec_env() {
   sops exec-env "$env_file" "$command"
 }
 
+# The pre-requisite checks for the action.
+#
+# Returns:
+#   0 - If all pre-requisites are met.
+#   1 - If a pre-requisite is not met.
+# Action Outputs:
+#   age-version - The version of age installed.
+#   sops-version - The version of sops installed.
+action::check_pre_requisites() {
+	# Check if age is installed
+	if ! command -v age &> /dev/null; then
+		echo "age not found in PATH. Please install age." >&2
+		return 1
+	fi
+
+	# Write the age version to a GitHub output variable
+	echo "age-version=$(age --version)" >> "$GITHUB_OUTPUT"
+
+	# Check if sops is installed
+	if ! command -v sops &> /dev/null; then
+		echo "sops not found in PATH. Please install sops." >&2
+		return 1
+	fi
+
+	# Write the sops version to a GitHub output variable
+	echo "sops-version=$(sops --version)" >> "$GITHUB_OUTPUT"
+}
+
 # The entrypoint for the action.
 action::main() {
   local env_file=$1
@@ -47,5 +75,3 @@ action::main() {
   # Decrypt and inject the environment variables to the command
   _sops::exec_env "$env_file" "$command"
 }
-
-action::main "$@"

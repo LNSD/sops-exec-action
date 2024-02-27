@@ -15,8 +15,8 @@ setup() {
 	# or $0, as those will point to the bats executable's location or the preprocessed file respectively
 	DIR="$(cd "$(dirname "$BATS_TEST_FILENAME")" >/dev/null 2>&1 && pwd)"
 
-	# Make executables in project root visible to PATH
-	PATH="$DIR/..:$PATH"
+	# Source the action.sh script
+	source "$DIR/../action.sh"
 }
 
 @test 'fail if age key configuration is not detected' {
@@ -44,7 +44,7 @@ setup() {
 	## When
 	# Do not set any age key environment variables
 
-	run action.sh "$env_file" "printf 'Hello, World!'"
+	run action::main "$env_file" "printf 'Hello, World!'"
 
 	## Then
 	assert_failure 1
@@ -83,7 +83,7 @@ setup() {
 	# Set the age key environment variable
 	export SOPS_AGE_KEY="$AGE_SECRET_KEY"
 
-	run --separate-stderr action.sh "$env_file" "$test_command; exit 0"
+	run --separate-stderr action::main "$env_file" "$test_command; exit 0"
 
 	## Then
 	assert_success
@@ -128,7 +128,7 @@ setup() {
 	# Set the age key file environment variable
 	export SOPS_AGE_KEY_FILE="$AGE_KEY_FILE"
 
-	run --separate-stderr action.sh "$env_file" "$test_command; exit 0"
+	run --separate-stderr action::main "$env_file" "$test_command; exit 0"
 
 	## Then
 	assert_success
@@ -172,7 +172,7 @@ setup() {
 	# Set the age key environment variable
 	export SOPS_AGE_KEY="$AGE_SECRET_KEY"
 
-	run --separate-stderr action.sh "$env_file" "$test_command; exit 55"
+	run --separate-stderr action::main "$env_file" "$test_command; exit 55"
 
 	## Then
 	assert_failure 55
@@ -216,7 +216,7 @@ setup() {
 	# Set the age key environment variable
 	export SOPS_AGE_KEY="$AGE_SECRET_KEY"
 
-	run --separate-stderr action.sh "$env_file" "$test_command; exit 45"
+	run --separate-stderr action::main "$env_file" "$test_command; exit 45"
 
 	## Then
 	assert_failure 45
