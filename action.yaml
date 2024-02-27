@@ -15,15 +15,17 @@ runs:
       id: check-pre-requisites
       shell: bash
       run: |
+        # Check pre-requisites
         source ./action.sh
 
         action::check_pre_requisites
 
-    # Execute the run clause and pass the decrypted environment variables (or file) to it
-    - name: Execute the run clause
+    # Execute the command and pass the decrypted environment variables (or file) to it
+    - name: Execute the command
       id: sops-exec
       shell: bash
       run: |
+        # Execute the command
         source ./action.sh
 
         action::main "${{ inputs.env_file }}" "${{ inputs.run }}"
