@@ -17,9 +17,9 @@ setup() {
 # Arguments:
 #	$1 - The destination file.
 function new_test_env_file() {
-    local dest_file="$1"
+	local dest_file="$1"
 
-    cat <<-EOF > "$dest_file"
+	cat <<-EOF > "$dest_file"
 	# This is a comment
 	SECRET_KEY=YOURSECRETKEYGOESHERE # comment
 	SECRET_HASH="something-with-a-#-hash"
