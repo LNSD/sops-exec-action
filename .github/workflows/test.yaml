@@ -64,7 +64,7 @@ jobs:
           version: 3.8.1
 
       # Integration tests
-      - name: Run command with encrypted environment file
+      - name: 'test: run command with encrypted environment file'
         uses: ./
         env:
           SOPS_AGE_KEY_FILE: test/assets/inttest-key.age
