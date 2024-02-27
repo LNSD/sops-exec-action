@@ -27,4 +27,14 @@
       automerge: true,
     },
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [".github/workflows/*.yaml"],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s.*?version:\\s?(?<currentValue>.*)\\s"
+      ],
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    },
+  ],
 }
