@@ -52,7 +52,7 @@ action::check_pre_requisites() {
 	fi
 
 	# Write the sops version to a GitHub output variable
-	echo "sops-version=$(sops --version)" >> "$GITHUB_OUTPUT"
+	echo "sops-version=$(sops --disable-version-check --version)" >> "$GITHUB_OUTPUT"
 }
 
 # The entrypoint for the action.
