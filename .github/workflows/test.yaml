@@ -74,7 +74,15 @@ jobs:
           version: ${{ env.sops-version }}
 
       # End-to-end tests
-      - name: 'test: run command with encrypted environment file'
+      - name: 'test: run command with encrypted environment file and secret key'
+        uses: ./
+        env:
+          SOPS_AGE_KEY: ${{ secrets.IT_E2E_SOPS_AGE_KEY }}
+        with:
+          env_file: test/assets/inttest.env
+          run: bash -c '[[ \"\$SECRET_KEY\" == \"YOURSECRETKEYGOESHERE\" && \"\$SECRET_HASH\" == \"something-with-a-#-hash\" ]]'
+
+      - name: 'test: run command with encrypted environment file and key file'
         uses: ./
         env:
           SOPS_AGE_KEY_FILE: test/assets/inttest-key.age
