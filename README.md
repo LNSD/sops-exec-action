@@ -38,21 +38,41 @@ To install `sops` and `age` in your workflow, you can use the following GitHub a
 
 ## Usage
 
-<!-- TODO: Add usage examples -->
+### Running a command with secrets (encrypted .env file)
+
+To run securely a command with secrets from an encrypted environment file, you should provide
+to **sops** the decryption key via the `SOPS_AGE_KEY` environment variable:
+
+```yaml
+  - uses: LNSD/sops-exec-action@v0.1.0
+    env:
+      SOPS_AGE_KEY: ${{ secrets.SECRET_KEY }}
+    with:
+      env_file: .env.encrypted
+      run: |
+        # Run a command that uses variables from the decrypted environment file
+        cargo test
+```
 
 ## Customizing
 
 ### Inputs
 
-<!-- TODO: Add inputs documentation -->
+The following inputs can be used as `step[*].with` keys:
 
-### Outputs
-
-<!-- TODO: Add outputs documentation -->
+| Name       | Description                                                                                                                                                                                                                                                                                                                             | Required | Default |
+|------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------|
+| `env_file` | The path to an encrypted environment file.<br/><br/> This file, encrypted locally using _sops_ and checked into the repository, typically carries the extension `.env.encrypted`.                                                                                                                                                       | Yes      | -       |
+| `run`      | The command to execute while utilizing decrypted environment variables.<br/><br/>The command is executed within a sub-shell, granting access to encrypted environment variables. Failure of the command results in the step failing, as _sops_ propagates its exit status accordingly. Moreover, the command inherits standard streams. | Yes      | -       |
 
 ### Environment variables
 
-<!-- TODO: Add environment variables documentation -->
+The following environment variables can be used as `step[*].env` keys:
+
+| Name                | Description                                                                       |
+|---------------------|-----------------------------------------------------------------------------------|
+| `SOPS_AGE_KEY`*     | The decryption key for the encrypted environment. **Required.**                   |
+| `SOPS_AGE_KEY_FILE` | The path to the file containing the decryption key for the encrypted environment. |
 
 ## License
 

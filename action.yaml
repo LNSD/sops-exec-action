@@ -1,5 +1,9 @@
 name: SOPS Exec
 description: A GitHub Action for securely executing commands with secrets.
+author: LNSD
+branding:
+  color: gray-dark
+  icon: lock
 inputs:
   env_file:
     description: 'The environment file to decrypt and pass to the command'
