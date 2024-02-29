@@ -16,7 +16,7 @@ indent_size = 4
 # denotes a line break in Markdown
 trim_trailing_whitespace = false
 
-[*.sh]
+[*.{sh,bash}]
 end_of_line = lf
 indent_style = tab
 
