@@ -16,6 +16,9 @@ jobs:
         id: release-please
         with:
           release-type: simple
+          # Needed to CI checks to execute en Release Please PRs
+          # See: https://github.com/google-github-actions/release-please-action#github-credentials
+          token: ${{ secrets.RELEASE_PLEASE_GITHUB_TOKEN }}
 
       - uses: actions/checkout@v4
         if: ${{ steps.release-please.outputs.release_created }}
