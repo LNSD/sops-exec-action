@@ -9,7 +9,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  release-please:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: google-github-actions/release-please-action@v4
@@ -32,13 +32,13 @@ jobs:
           git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/LNSD/sops-exec-action.git"
 
           # Delete the tag, if it already exists
-          git tag -d v${{ steps.release.outputs.major }} || true
-          git tag -d v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
-          git push origin :v${{ steps.release.outputs.major }} || true
-          git push origin :v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} || true
+          git tag -d v${{ steps.release-please.outputs.major }} || true
+          git tag -d v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} || true
+          git push origin :v${{ steps.release-please.outputs.major }} || true
+          git push origin :v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} || true
 
           # Add the new tag
-          git tag -a v${{ steps.release.outputs.major }} -m "Release v${{ steps.release.outputs.major }}"
-          git tag -a v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }} -m "Release v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}"
-          git push origin v${{ steps.release.outputs.major }}
-          git push origin v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}
+          git tag -a v${{ steps.release-please.outputs.major }} -m "Release v${{ steps.release-please.outputs.major }}"
+          git tag -a v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} -m "Release v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}"
+          git push origin v${{ steps.release-please.outputs.major }}
+          git push origin v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}
