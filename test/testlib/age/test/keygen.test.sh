@@ -43,7 +43,7 @@ setup() {
 	assert_exists "$AGE_KEY_FILE"
 
 	## Cleanup
-	temp_del "$AGE_KEY_FILE"
+	temp_del "$(dirname $AGE_KEY_FILE)"
 }
 
 # shellcheck disable=SC2031
@@ -67,5 +67,5 @@ setup() {
 	assert_exists "$AGE_KEY_FILE"
 
 	## Cleanup
-	temp_del "$key_file"
+	temp_del "$(dirname $AGE_KEY_FILE)"
 }
