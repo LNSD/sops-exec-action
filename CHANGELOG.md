@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/LNSD/sops-exec-action/compare/v1.1.0...v1.1.1) (2024-03-01)
+
+
+### Bug Fixes
+
+* mark as production ready ([#38](https://github.com/LNSD/sops-exec-action/issues/38)) ([674e06b](https://github.com/LNSD/sops-exec-action/commit/674e06b1d893ab2f97eb252a49362f8ed8af3804))
+
 ## [1.1.0](https://github.com/LNSD/sops-exec-action/compare/v1.0.0...v1.1.0) (2024-03-01)
 
 
