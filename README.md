@@ -45,14 +45,14 @@ To run securely a command with secrets from an encrypted environment file, you s
 to **sops** the decryption key via the `SOPS_AGE_KEY` environment variable:
 
 ```yaml
-  - uses: LNSD/sops-exec-action@v0.1.0
-    env:
-      SOPS_AGE_KEY: ${{ secrets.AGE_SECRET_KEY }}
-    with:
-      env_file: .env.encrypted
-      run: |
-        # A command that uses variables from the decrypted environment file (e.g., cargo test)
-        cargo test
+- uses: LNSD/sops-exec-action@v1
+  env:
+    SOPS_AGE_KEY: ${{ secrets.AGE_SECRET_KEY }}
+  with:
+    env_file: .env.encrypted
+    run: |
+      # A command that uses variables from the decrypted environment file (e.g., cargo test)
+      cargo test
 ```
 
 ### Run a command with secrets from encrypted .env file and _gpg_
@@ -67,14 +67,14 @@ environment variable:
 > action to import the key.
 
 ```yaml
-  - uses: LNSD/sops-exec-action@v0.1.0
-    env:
-      SOPS_GPG_FP: ${{ secrets.GPG_KEY_FP }}
-    with:
-      env_file: .env.encrypted
-      run: |
-        # A command that uses variables from the decrypted environment file (e.g., cargo test)
-        cargo test
+- uses: LNSD/sops-exec-action@v1
+  env:
+    SOPS_GPG_FP: ${{ secrets.GPG_KEY_FP }}
+  with:
+    env_file: .env.encrypted
+    run: |
+      # A command that uses variables from the decrypted environment file (e.g., cargo test)
+      cargo test
 ```
 
 ## Customizing
