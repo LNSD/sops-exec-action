@@ -1,5 +1,5 @@
 name: SOPS Exec
-description: A GitHub Action for securely executing commands with secrets.
+description: Securely execute commands with encrypted secrets in GitHub Actions.
 author: LNSD
 branding:
   color: gray-dark

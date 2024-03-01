@@ -4,13 +4,10 @@ SOPS Exec action
 [![License](https://img.shields.io/badge/License-MIT%20OR%20Apache%202.0-blue.svg)](#license)
 [![test](https://github.com/LNSD/sops-exec-action/actions/workflows/test.yaml/badge.svg)](https://github.com/LNSD/sops-exec-action/actions/workflows/test.yaml)
 
-A GitHub Action for securely executing commands with secrets.
+Securely execute commands with encrypted secrets in GitHub Actions.
 
 This action uses [SOPS](https://getsops.io/) to decrypt secrets files encrypted with [age](https://age-encryption.org/)
 and then executes the given command with the decrypted secrets injected in the subprocess environment.
-
-> [!Warning]
-> This is a work in progress and is not ready for production use.
 
 ## Prerequisites
 
