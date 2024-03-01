@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0](https://github.com/LNSD/sops-exec-action/compare/v1.0.0...v1.1.0) (2024-03-01)
+
+
+### Features
+
+* **action:** support gpg encryption ([#36](https://github.com/LNSD/sops-exec-action/issues/36)) ([7e17456](https://github.com/LNSD/sops-exec-action/commit/7e17456b2f155fbd92c6299fd6ff178ece51fa29))
+* **testlib:** add gpg support to sops testlib ([#35](https://github.com/LNSD/sops-exec-action/issues/35)) ([df2083b](https://github.com/LNSD/sops-exec-action/commit/df2083b22329c3b9ed0ec827aa0a862472eee054))
+* **testlib:** add key generation support to gpg testlib ([#32](https://github.com/LNSD/sops-exec-action/issues/32)) ([39bb2fb](https://github.com/LNSD/sops-exec-action/commit/39bb2fb3284f3582cf5b15e9d2001a54efb82a44))
+* **testlib:** add key import support to gpg testlib ([#34](https://github.com/LNSD/sops-exec-action/issues/34)) ([aa7e041](https://github.com/LNSD/sops-exec-action/commit/aa7e0412cd33ba1f0006f82bfd916ed6a71c1b45))
+
 ## 1.0.0 (2024-02-29)
 
 
