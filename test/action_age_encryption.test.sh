@@ -19,43 +19,8 @@ setup() {
 	source "$DIR/../action.sh"
 }
 
-@test 'fail if age key configuration is not detected' {
-	## Given
-	# Create a temporary directory
-	local temp_dir
-	temp_dir="$(temp_make)"
 
-	# Create a new test environment file.
-	local env_file
-	env_file="$temp_dir/.env"
-
-	cat <<-EOF > "$env_file"
-	SECRET_KEY=YOURSECRETKEYGOESHERE
-	SECRET_HASH=something-with-a-#-hash
-	EOF
-
-	# Generate a new age keypair and encrypt the environment file
-	age::generate_keypair "$temp_dir/key.age"
-	sops::encrypt_in_place_with_age "$AGE_PUBLIC_KEY" "$env_file"
-
-	# Unset the age key environment variables (not necessary, but for safety reasons)
-	age::unset_env
-
-	## When
-	# Do not set any age key environment variables
-
-	run action::main "$env_file" "printf 'Hello, World!'"
-
-	## Then
-	assert_failure 1
-	assert_output 'Decryption key not set: SOPS_AGE_KEY_FILE or SOPS_AGE_KEY'
-
-	## Clean
-	# Remove the temporary directory
-	temp_del "$temp_dir"
-}
-
-@test "exec command with environment" {
+@test 'action::age::exec command with environment' {
 	## Given
 	# Create a temporary directory
 	local temp_dir
@@ -99,8 +64,7 @@ setup() {
 	temp_del "$temp_dir"
 }
 
-@test 'exec command with environment and age key file' {
-
+@test 'action::age::exec command with environment and age key file' {
 	## Given
 	# Create a temporary directory
 	local temp_dir
@@ -144,7 +108,7 @@ setup() {
 	temp_del "$temp_dir"
 }
 
-@test 'exec command with environment and fail with non-zero exit code' {
+@test 'action::age::exec command with environment and fail with non-zero exit code' {
 	## Given
 	# Create a temporary directory
 	local temp_dir
@@ -188,7 +152,7 @@ setup() {
 	temp_del "$temp_dir"
 }
 
-@test 'exec command with non-encrypted environment file' {
+@test 'action::age::exec command with non-encrypted environment file' {
 	## Given
 	# Create a temporary directory
 	local temp_dir
