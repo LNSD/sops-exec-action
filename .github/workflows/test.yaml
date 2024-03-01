@@ -73,8 +73,15 @@ jobs:
         with:
           version: ${{ env.sops-version }}
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        id: gpg-import
+        with:
+          gpg_private_key: ${{ secrets.IT_E2E_SOPS_GPG_KEY }}
+
       # End-to-end tests
-      - name: 'test: run command with encrypted environment file and secret key'
+      - name: 'test: run command with encrypted environment file and age secret key'
+        if: always()
         uses: ./
         env:
           SOPS_AGE_KEY: ${{ secrets.IT_E2E_SOPS_AGE_KEY }}
@@ -82,10 +89,20 @@ jobs:
           env_file: test/assets/inttest.env
           run: bash -c '[[ \"\$SECRET_KEY\" == \"YOURSECRETKEYGOESHERE\" && \"\$SECRET_HASH\" == \"something-with-a-#-hash\" ]]'
 
-      - name: 'test: run command with encrypted environment file and key file'
+      - name: 'test: run command with encrypted environment file and age key file'
+        if: always()
         uses: ./
         env:
           SOPS_AGE_KEY_FILE: test/assets/inttest-key.age
+        with:
+          env_file: test/assets/inttest.env
+          run: bash -c '[[ \"\$SECRET_KEY\" == \"YOURSECRETKEYGOESHERE\" && \"\$SECRET_HASH\" == \"something-with-a-#-hash\" ]]'
+
+      - name: 'test: run command with encrypted environment file and gpg key'
+        if: always()
+        uses: ./
+        env:
+          SOPS_GPG_FP: ${{ steps.gpg-import.outputs.fingerprint }}
         with:
           env_file: test/assets/inttest.env
           run: bash -c '[[ \"\$SECRET_KEY\" == \"YOURSECRETKEYGOESHERE\" && \"\$SECRET_HASH\" == \"something-with-a-#-hash\" ]]'
