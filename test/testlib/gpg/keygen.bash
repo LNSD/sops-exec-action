@@ -74,7 +74,7 @@ gpg::generate_keypair() {
 
 	# Export the public and private keys
 	local fingerprint
-	fingerprint=$(gpg --homedir "$gnupg_home" --fingerprint --with-fingerprint --with-colons "$user_email" | awk -F: '/fpr:/ {print $10}')
+	fingerprint=$(gpg --homedir "$gnupg_home" --fingerprint --with-fingerprint --with-colons "$user_email" | awk -F: '/fpr:/ {print $10; exit}')
 
 	local public_key
 	local private_key
