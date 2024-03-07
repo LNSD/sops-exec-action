@@ -20,7 +20,7 @@ runs:
       shell: bash
       run: |
         # Check pre-requisites
-        source ./action.sh
+        source ${{ github.action_path }}/action.sh
 
         action::check_pre_requisites
 
@@ -30,6 +30,6 @@ runs:
       shell: bash
       run: |
         # Execute the command
-        source ./action.sh
+        source ${{ github.action_path }}/action.sh
 
         action::main "${{ inputs.env_file }}" "${{ inputs.run }}"
