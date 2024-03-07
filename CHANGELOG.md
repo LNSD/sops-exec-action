@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/LNSD/sops-exec-action/compare/v1.1.1...v1.1.2) (2024-03-07)
+
+
+### Bug Fixes
+
+* **action:** fix github action script path ([#41](https://github.com/LNSD/sops-exec-action/issues/41)) ([26e89d3](https://github.com/LNSD/sops-exec-action/commit/26e89d3fc669b7aaff150fc26a6881475fad10fc))
+
 ## [1.1.1](https://github.com/LNSD/sops-exec-action/compare/v1.1.0...v1.1.1) (2024-03-01)
 
 
