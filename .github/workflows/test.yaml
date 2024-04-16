@@ -31,7 +31,7 @@ jobs:
         uses: bats-core/bats-action@472edde1138d59aca53ff162fb8d996666d21e4a # 2.0.0
         with:
           # renovate: datasource=github-releases depName=bats-core/bats-core
-          bats-version: 1.10.0
+          bats-version: 1.11.0
           # renovate: datasource=github-releases depName=bats-core/bats-support
           support-version: 0.3.0
           # renovate: datasource=github-releases depName=bats-core/bats-assert
