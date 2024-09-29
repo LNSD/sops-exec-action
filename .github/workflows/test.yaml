@@ -28,7 +28,7 @@ jobs:
         run: sudo apt-get install -y yamllint
 
       - name: Setup Bats and bats libs
-        uses: bats-core/bats-action@472edde1138d59aca53ff162fb8d996666d21e4a # 2.0.0
+        uses: bats-core/bats-action@3b6fd9e3d70ab0587e754b8b6c8aa9c2e6f61d02 # 2.1.1
         with:
           # renovate: datasource=github-releases depName=bats-core/bats-core
           bats-version: 1.11.0
