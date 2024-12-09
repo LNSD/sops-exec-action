@@ -13,7 +13,7 @@ env:
   # renovate: datasource=github-releases depName=FiloSottile/age
   age-version: 1.2.0
   # renovate: datasource=github-releases depName=getsops/sops
-  sops-version: 3.9.1
+  sops-version: 3.9.2
 
 jobs:
   test:
