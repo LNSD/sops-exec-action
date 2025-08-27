@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/LNSD/sops-exec-action/compare/v1.1.2...v1.1.3) (2025-08-27)
+
+
+### Bug Fixes
+
+* **ci:** update documentation link for GitHub credentials in release workflow ([#72](https://github.com/LNSD/sops-exec-action/issues/72)) ([d4c6d2f](https://github.com/LNSD/sops-exec-action/commit/d4c6d2fead4812b59d3cae4b2a9a5cd654d8d4a3))
+
 ## [1.1.2](https://github.com/LNSD/sops-exec-action/compare/v1.1.1...v1.1.2) (2024-03-07)
 
 
