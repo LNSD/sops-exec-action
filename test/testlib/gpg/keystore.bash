@@ -99,7 +99,7 @@ gpg::import_key() {
 	fi
 
 	# Import the keypair
-	if ! gpg --homedir "$gpg_home_dir" --batch --import --yes <<< "$key" 2> /dev/null; then
+	if ! gpg --homedir "$gpg_home_dir" --batch --import --yes <<<"$key" 2>/dev/null; then
 		echo "Keypair import failed" >&2
 
 		# Clean up the temporary directory if it was created
@@ -154,7 +154,7 @@ gpg::import_key_file() {
 	fi
 
 	# Import the keypair
-	if ! gpg --homedir "$gpg_home_dir" --batch --import --yes "$key_file" 2> /dev/null; then
+	if ! gpg --homedir "$gpg_home_dir" --batch --import --yes "$key_file" 2>/dev/null; then
 		echo "Keypair import failed" >&2
 
 		# Clean up the temporary directory if it was created

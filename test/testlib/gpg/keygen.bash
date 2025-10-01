@@ -50,23 +50,23 @@ gpg::generate_keypair() {
 	user_name="Test User $user_id"
 	user_email="test-$user_id@example.com"
 
-	cat <<-EOF > "$gnupg_home/keygen_details"
-	%echo Generating a test OpenPGP key
-	Key-Type: RSA
-	Key-Length: 4096
-	Subkey-Type: RSA
-	Subkey-Length: 4096
-	Name-Real: ${user_name}
-	Name-Comment: with no passphrase
-	Name-Email: ${user_email}
-	Expire-Date: 0
-	%no-ask-passphrase
-	%no-protection
-	# Do a commit here, so that we can later print "done"
-	%commit
-	%echo done
+	cat <<-EOF >"$gnupg_home/keygen_details"
+		%echo Generating a test OpenPGP key
+		Key-Type: RSA
+		Key-Length: 4096
+		Subkey-Type: RSA
+		Subkey-Length: 4096
+		Name-Real: ${user_name}
+		Name-Comment: with no passphrase
+		Name-Email: ${user_email}
+		Expire-Date: 0
+		%no-ask-passphrase
+		%no-protection
+		# Do a commit here, so that we can later print "done"
+		%commit
+		%echo done
 	EOF
-	if ! gpg --homedir "$gnupg_home" --verbose --batch --gen-key "$gnupg_home/keygen_details" 2> /dev/null; then
+	if ! gpg --homedir "$gnupg_home" --verbose --batch --gen-key "$gnupg_home/keygen_details" 2>/dev/null; then
 		echo "Keypair generation failed" >&2
 		temp_del "$gnupg_home"
 		return 1
@@ -80,7 +80,6 @@ gpg::generate_keypair() {
 	local private_key
 	public_key=$(gpg --homedir "$gnupg_home" --armor --export "$user_email")
 	private_key=$(gpg --homedir "$gnupg_home" --armor --export-secret-keys "$user_email")
-
 
 	# Export the private key to a file
 	gpg --homedir "$gnupg_home" --armor --export-secret-keys --output "$key_file" "$user_email"

@@ -19,10 +19,10 @@ setup() {
 function new_test_env_file() {
 	local dest_file="$1"
 
-	cat <<-EOF > "$dest_file"
-	# This is a comment
-	SECRET_KEY=YOURSECRETKEYGOESHERE # comment
-	SECRET_HASH="something-with-a-#-hash"
+	cat <<-EOF >"$dest_file"
+		# This is a comment
+		SECRET_KEY=YOURSECRETKEYGOESHERE # comment
+		SECRET_HASH="something-with-a-#-hash"
 	EOF
 }
 
@@ -70,7 +70,6 @@ function assert_file_is_not_encrypted() {
 	return 0
 }
 
-
 @test 'sops::files::it should encrypt the environment file' {
 	## Setup
 	local temp_dir
@@ -96,7 +95,7 @@ function assert_file_is_not_encrypted() {
 	local encrypted_file
 	encrypted_file="$env_file.encrypted"
 
-	sops::encrypt_with_gpg "$GPG_KEY_FP" "$env_file" "$gpg_home_dir" > "$encrypted_file"
+	sops::encrypt_with_gpg "$GPG_KEY_FP" "$env_file" "$gpg_home_dir" >"$encrypted_file"
 
 	## Then
 	assert [ $? -eq 0 ]
@@ -134,7 +133,7 @@ function assert_file_is_not_encrypted() {
 	## When
 	local decrypted_file
 	decrypted_file="$env_file.decrypted"
-	sops::decrypt_with_gpg "$GPG_SECRET_KEY" "$env_file" "$gpg_home_dir" > "$decrypted_file"
+	sops::decrypt_with_gpg "$GPG_SECRET_KEY" "$env_file" "$gpg_home_dir" >"$decrypted_file"
 
 	## Then
 	assert [ $? -eq 0 ]

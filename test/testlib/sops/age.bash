@@ -18,10 +18,10 @@
 #   STDOUT - The encrypted file
 #   STDERR - details, on failure
 sops::encrypt_with_age() {
-    local public_key="$1"
-    local file="$2"
+	local public_key="$1"
+	local file="$2"
 
-    sops --age "$public_key" --encrypt "$file"
+	sops --age "$public_key" --encrypt "$file"
 }
 
 # Use 'sops' to encrypt a file using an 'age' key in place, i.e., overwrite the file
@@ -41,14 +41,13 @@ sops::encrypt_with_age() {
 # Outputs:
 #   STDERR - details, on failure
 sops::encrypt_in_place_with_age() {
-    local public_key="$1"
-    local file="$2"
+	local public_key="$1"
+	local file="$2"
 
-    # NB: The '--in-place' flag must be provided before '--encrypt',
-    #     otherwise it is ignored.
-    sops --age "$public_key" --in-place --encrypt "$file"
+	# NB: The '--in-place' flag must be provided before '--encrypt',
+	#     otherwise it is ignored.
+	sops --age "$public_key" --in-place --encrypt "$file"
 }
-
 
 # Use 'sops' to decrypt a file using an 'age' key.
 #
@@ -67,10 +66,10 @@ sops::encrypt_in_place_with_age() {
 #   STDOUT - The decrypted file
 #   STDERR - details, on failure
 sops::decrypt_with_age() {
-    local private_key="$1"
-    local file="$2"
+	local private_key="$1"
+	local file="$2"
 
-    env SOPS_AGE_KEY="$private_key" sops --decrypt "$file"
+	env SOPS_AGE_KEY="$private_key" sops --decrypt "$file"
 }
 
 # Use 'sops' to decrypt a file using an 'age' key in place, i.e., overwrite the file
@@ -90,10 +89,10 @@ sops::decrypt_with_age() {
 # Outputs:
 #   STDERR - details, on failure
 sops::decrypt_in_place_with_age() {
-    local private_key="$1"
-    local file="$2"
+	local private_key="$1"
+	local file="$2"
 
-    # NB: The '--in-place' flag must be provided before '--decrypt',
-    #     otherwise it is ignored.
-    env SOPS_AGE_KEY="$private_key" sops --in-place --decrypt "$file"
+	# NB: The '--in-place' flag must be provided before '--decrypt',
+	#     otherwise it is ignored.
+	env SOPS_AGE_KEY="$private_key" sops --in-place --decrypt "$file"
 }
