@@ -22,7 +22,7 @@ To install `sops` and `age` in your workflow, you can use the following GitHub a
   - name: Setup sops
     uses: nhedger/setup-sops@v2
     with:
-      version: 3.8.1 # optional, defaults to latest
+      version: 3.11.0 # optional, defaults to latest
   ```
 
 - _Setup age_ ([alessiodionisi/setup-age-action](https://github.com/marketplace/actions/setup-age))
@@ -31,7 +31,7 @@ To install `sops` and `age` in your workflow, you can use the following GitHub a
     - name: Setup age
       uses: alessiodionisi/setup-age-action@v1
       with:
-        version: 1.1.1 # optional, defaults to latest
+        version: 1.2.1 # optional, defaults to latest
     ```
 
 By default, GitHub actions runners already have `gpg` installed, so you don't need to install it.
