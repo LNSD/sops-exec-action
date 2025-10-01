@@ -1,7 +1,7 @@
 #!/usr/bin/env bats
 
 setup() {
-	bats_require_minimum_version 1.5.0
+	bats_require_minimum_version 1.10.0
 
 	# Load test libraries
 	bats_load_library 'bats-support'

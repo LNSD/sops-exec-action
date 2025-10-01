@@ -48,14 +48,14 @@ test: unittest inttest
 # Run unit tests
 unittest:
     @echo "Running unit tests..."
-    @env BATS_LIB_PATH={{BATS_LIB_PATH}} {{BATS}} test/*.test.sh
+    @env BATS_LIB_PATH={{BATS_LIB_PATH}} {{BATS}} --jobs $(nproc) test/*.test.bats
 
 # Run integration tests
 inttest:
     @echo "Running integration tests..."
-    @env BATS_LIB_PATH={{BATS_LIB_PATH}} {{BATS}} test/*.inttest.sh
+    @env BATS_LIB_PATH={{BATS_LIB_PATH}} {{BATS}} --jobs $(nproc) test/*.inttest.bats
 
 # Run testlib tests
 test-testlib:
     @echo "Running testlib tests..."
-    @env BATS_LIB_PATH={{BATS_LIB_PATH}} {{BATS}} test/testlib/**/test/*.test.sh
+    @env BATS_LIB_PATH={{BATS_LIB_PATH}} {{BATS}} --jobs $(nproc) test/testlib/**/test/*.test.bats
