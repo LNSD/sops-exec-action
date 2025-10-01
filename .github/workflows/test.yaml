@@ -27,6 +27,9 @@ jobs:
       - name: Setup yamllint
         run: sudo apt-get install -y yamllint
 
+      - name: Setup just
+        uses: extractions/setup-just@e33e0265a09d6d736e2ee1e0eb685ef1de4669ff # v3
+
       - name: Setup Bats and bats libs
         uses: bats-core/bats-action@42fcc8700f773c075a16a90eb11674c0318ad507 # 3.0.1
         with:
@@ -50,12 +53,12 @@ jobs:
         with:
           version: ${{ env.sops-version }}
 
-      - run: make check-testlib
-      - run: make test-testlib
+      - run: just check-testlib
+      - run: just test-testlib
 
-      - run: make check
-      - run: make unittest
-      - run: make inttest
+      - run: just check
+      - run: just unittest
+      - run: just inttest
 
   e2e:
     needs: test
