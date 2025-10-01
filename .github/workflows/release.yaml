@@ -16,6 +16,7 @@ jobs:
         id: release-please
         with:
           release-type: simple
+          skip-github-release: true
           # Needed to CI checks to execute en Release Please PRs
           # See: https://github.com/googleapis/release-please-action#github-credentials
           token: ${{ secrets.RELEASE_PLEASE_GITHUB_TOKEN }}
@@ -23,22 +24,69 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         if: ${{ steps.release-please.outputs.release_created }}
 
-      - name: Tag major and minor versions
+      - name: Import GPG key
+        if: ${{ steps.release-please.outputs.release_created }}
+        uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6
+        id: gpg-import
+        with:
+          gpg_private_key: ${{ secrets.RELEASE_GPG_KEY }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+
+      - name: Tag major, minor, and patch versions
         if: ${{ steps.release-please.outputs.release_created }}
         run: |
           # Configure git
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git remote add gh-token "https://${{ secrets.GITHUB_TOKEN }}@github.com/LNSD/sops-exec-action.git"
+          git config user.name "Lorenzo Delgado"
+          git config user.email lnsdev@proton.me
 
-          # Delete the tag, if it already exists
-          git tag -d v${{ steps.release-please.outputs.major }} || true
-          git tag -d v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} || true
-          git push origin :v${{ steps.release-please.outputs.major }} || true
-          git push origin :v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} || true
+          # Create signed tag for 'major.minor.patch' version
+          git tag \
+            --annotate v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}.${{ steps.release-please.outputs.patch }} \
+            --message "Release v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}.${{ steps.release-please.outputs.patch }}" \
+            --sign \
+            --force
 
-          # Add the new tag
-          git tag -a v${{ steps.release-please.outputs.major }} -m "Release v${{ steps.release-please.outputs.major }}"
-          git tag -a v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} -m "Release v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}"
-          git push origin v${{ steps.release-please.outputs.major }}
-          git push origin v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}
+          # Create signed tag for 'major.minor' version
+          git tag \
+            --annotate v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} \
+            --message "Release v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}" \
+            --sign \
+            --force
+
+          # Create signed tag for 'major' version
+          git tag \
+            --annotate v${{ steps.release-please.outputs.major }} \
+            --message "Release v${{ steps.release-please.outputs.major }}" \
+            --sign \
+            --force
+
+          # Push all tags to remote
+          git push --force origin \
+            v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}.${{ steps.release-please.outputs.patch }} \
+            v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} \
+            v${{ steps.release-please.outputs.major }}
+
+      - name: Create GitHub releases for major, minor, and patch tags
+        if: ${{ steps.release-please.outputs.release_created }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Create/update release for major.minor.patch version tag
+          gh release create v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}.${{ steps.release-please.outputs.patch }} \
+            --title "v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}.${{ steps.release-please.outputs.patch }}" \
+            --notes "${{ steps.release-please.outputs.body }}" \
+            --force
+
+          # Create/update release for major.minor version tag
+          gh release create v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }} \
+            --title "v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}" \
+            --notes "Latest release in the v${{ steps.release-please.outputs.major }}.${{ steps.release-please.outputs.minor }}.x series. See [v${{ steps.release-please.outputs.tag_name }}](${{ steps.release-please.outputs.html_url }}) for details." \
+            --force
+
+          # Create/update release for major version tag
+          gh release create v${{ steps.release-please.outputs.major }} \
+            --title "v${{ steps.release-please.outputs.major }}" \
+            --notes "Latest release in the v${{ steps.release-please.outputs.major }}.x series. See [v${{ steps.release-please.outputs.tag_name }}](${{ steps.release-please.outputs.html_url }}) for details." \
+            --force
