@@ -26,10 +26,10 @@
 #   STDOUT - The output of the command
 #   STDERR - details, on failure
 _sops::exec_env() {
-  local env_file=$1
-  local command=$2
+	local env_file=$1
+	local command=$2
 
-  sops exec-env "$env_file" "$command"
+	sops exec-env "$env_file" "$command"
 }
 
 # The pre-requisite checks for the action.
@@ -53,7 +53,7 @@ action::check_pre_requisites() {
 
 	# Check if 'gpg' is installed and get the version
 	local gpg_version
-	if ! command -v gpg &> /dev/null; then
+	if ! command -v gpg &>/dev/null; then
 		gpg_version="none"
 	else
 		gpg_version="$(gpg --version | awk 'NR==1{print $3}')"
@@ -67,14 +67,14 @@ action::check_pre_requisites() {
 
 	# Check if 'age' is installed and get the version
 	local age_version
-	if ! command -v age &> /dev/null; then
+	if ! command -v age &>/dev/null; then
 		age_version="none"
 	else
 		age_version="$(age --version | sed 's/^v//')"
 	fi
 
 	# Write the 'age' version to a GitHub output variable
-	echo "age-version=$age_version" >> "$GITHUB_OUTPUT"
+	echo "age-version=$age_version" >>"$GITHUB_OUTPUT"
 
 	# Fail if the 'age' key is set and 'age' is not installed
 	if [[ -n "$SOPS_AGE_KEY_FILE" || -n "$SOPS_AGE_KEY" ]] && [[ "$age_version" == 'none' ]]; then
@@ -84,7 +84,7 @@ action::check_pre_requisites() {
 
 	# Fail if 'sops' is not installed
 	local sops_version
-	if ! command -v sops &> /dev/null; then
+	if ! command -v sops &>/dev/null; then
 		echo "sops not found in PATH. Please install sops." >&2
 		return 1
 	else
@@ -92,20 +92,24 @@ action::check_pre_requisites() {
 	fi
 
 	# Write the version as GitHub output variables
-	{ echo "gpg-version=$gpg_version"; echo "age-version=$age_version"; echo "sops-version=$sops_version"; } >> "$GITHUB_OUTPUT"
+	{
+		echo "gpg-version=$gpg_version"
+		echo "age-version=$age_version"
+		echo "sops-version=$sops_version"
+	} >>"$GITHUB_OUTPUT"
 }
 
 # The entrypoint for the action.
 action::main() {
-  local env_file=$1
-  local command=$2
+	local env_file=$1
+	local command=$2
 
-  # Check if file exists
-  if [[ ! -f "$env_file" ]]; then
-	echo "Environment file not found: $env_file" >&2
-	return 1
-  fi
+	# Check if file exists
+	if [[ ! -f "$env_file" ]]; then
+		echo "Environment file not found: $env_file" >&2
+		return 1
+	fi
 
-  # Decrypt and inject the environment variables to the command
-  _sops::exec_env "$env_file" "$command"
+	# Decrypt and inject the environment variables to the command
+	_sops::exec_env "$env_file" "$command"
 }

@@ -19,10 +19,10 @@ setup() {
 function new_test_env_file() {
 	local dest_file="$1"
 
-	cat <<-EOF > "$dest_file"
-	# This is a comment
-	SECRET_KEY=YOURSECRETKEYGOESHERE # comment
-	SECRET_HASH="something-with-a-#-hash"
+	cat <<-EOF >"$dest_file"
+		# This is a comment
+		SECRET_KEY=YOURSECRETKEYGOESHERE # comment
+		SECRET_HASH="something-with-a-#-hash"
 	EOF
 }
 
@@ -70,7 +70,6 @@ function assert_file_is_not_encrypted() {
 	return 0
 }
 
-
 @test 'sops::files::it should encrypt the environment file' {
 	## Setup
 	local temp_dir
@@ -89,7 +88,7 @@ function assert_file_is_not_encrypted() {
 	local encrypted_file
 	encrypted_file="$env_file.encrypted"
 
-	sops::encrypt_with_age "$AGE_PUBLIC_KEY" "$env_file" > "$encrypted_file"
+	sops::encrypt_with_age "$AGE_PUBLIC_KEY" "$env_file" >"$encrypted_file"
 
 	## Then
 	assert [ $? -eq 0 ]
@@ -120,7 +119,7 @@ function assert_file_is_not_encrypted() {
 	## When
 	local decrypted_file
 	decrypted_file="$env_file.decrypted"
-	sops::decrypt_with_age "$AGE_SECRET_KEY" "$env_file" > "$decrypted_file"
+	sops::decrypt_with_age "$AGE_SECRET_KEY" "$env_file" >"$decrypted_file"
 
 	## Then
 	assert [ $? -eq 0 ]

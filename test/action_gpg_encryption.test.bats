@@ -19,7 +19,6 @@ setup() {
 	source "$DIR/../action.sh"
 }
 
-
 @test 'action::gpg::exec command with environment' {
 	## Setup
 	# Create a temporary directory
@@ -34,9 +33,9 @@ setup() {
 	# Create a new test environment file.
 	local env_file="$temp_dir/.env"
 
-	cat <<-EOF > "$env_file"
-	SECRET_KEY=YOURSECRETKEYGOESHERE
-	SECRET_HASH=something-with-a-#-hash
+	cat <<-EOF >"$env_file"
+		SECRET_KEY=YOURSECRETKEYGOESHERE
+		SECRET_HASH=something-with-a-#-hash
 	EOF
 
 	# Define the test command
@@ -85,9 +84,9 @@ setup() {
 	# Create a new test environment file.
 	local env_file="$temp_dir/.env"
 
-	cat <<-EOF > "$env_file"
-	SECRET_KEY=YOURSECRETKEYGOESHERE
-	SECRET_HASH=something-with-a-#-hash
+	cat <<-EOF >"$env_file"
+		SECRET_KEY=YOURSECRETKEYGOESHERE
+		SECRET_HASH=something-with-a-#-hash
 	EOF
 
 	# Define the test command
@@ -136,9 +135,9 @@ setup() {
 	# Create a new test environment file.
 	local env_file="$temp_dir/.env"
 
-	cat <<-EOF > "$env_file"
-	SECRET_KEY=YOURSECRETKEYGOESHERE
-	SECRET_HASH=something-with-a-#-hash
+	cat <<-EOF >"$env_file"
+		SECRET_KEY=YOURSECRETKEYGOESHERE
+		SECRET_HASH=something-with-a-#-hash
 	EOF
 
 	# Define the test command
@@ -172,5 +171,3 @@ setup() {
 	# Remove the temporary directory
 	temp_del "$temp_dir"
 }
-
-

@@ -21,7 +21,6 @@ age::unset_env() {
 	unset -v AGE_KEY_FILE
 }
 
-
 # Use 'age-keygen' to generate a keypair. If no key file is provided, a temporary file will be created.
 #
 # If the keypair is successfully generated, the following environment variables will be set:

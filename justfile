@@ -4,6 +4,7 @@ default:
     @just --list
 
 # Variables
+SHFMT := "shfmt"
 SHELLCHECK := "shellcheck"
 YAMLLINT := "yamllint"
 BATS := "bats"
@@ -18,9 +19,30 @@ BATS_LIB_PATH := "/usr/lib/bats:/usr/lib:/usr/local/opt:" + justfile_directory()
 
 
 # Run all available checks and tests
-all: check test
+all: fmt check test
 
-# ---- Check recipes ----
+# ---- Format ----
+
+# Format all shell files (via shfmt)
+fmt:
+    @echo "Formatting shell scripts..."
+    {{SHFMT}} --indent 0 --write action.sh
+    @echo "Formatting testlib shell scripts..."
+    {{SHFMT}} --indent 0 --write test/testlib/**/*.bash
+    @echo "Formatting BATS test files..."
+    {{SHFMT}} --indent 0 --language-dialect bats --write test/*.bats test/testlib/**/test/*.bats
+
+# Check formatting of all shell files (via shfmt)
+fmt-check:
+    @echo "Checking shell scripts formatting..."
+    {{SHFMT}} --indent 0 --diff action.sh
+    @echo "Checking testlib shell scripts formatting..."
+    {{SHFMT}} --indent 0 --diff test/testlib/**/*.bash
+    @echo "Checking BATS test files formatting..."
+    {{SHFMT}} --indent 0 --language-dialect bats --diff test/*.bats test/testlib/**/test/*.bats
+
+
+# ---- Check ----
 
 # Run all available static checks
 check: shellcheck yamllint
@@ -28,7 +50,7 @@ check: shellcheck yamllint
 # Lint shell scripts (via shellcheck)
 shellcheck:
     @echo "Linting shell scripts..."
-    @{{SHELLCHECK}} -x -s bash action.sh
+    @{{SHELLCHECK}} --external-sources --shell=bash action.sh
 
 # Lint YAML files (via yamllint)
 yamllint:
@@ -38,11 +60,10 @@ yamllint:
 # Lint testlib shell scripts (via shellcheck)
 check-testlib:
     @echo "Linting testlib shell scripts..."
-    @{{SHELLCHECK}} -x -s bash test/testlib/**/*.bash
+    @{{SHELLCHECK}} --external-sources --shell=bash test/testlib/**/*.bash
+# ---- Test ----
 
-# ---- Test recipes ----
-
-# Run all available tests
+# Run all tests
 test: unittest inttest
 
 # Run unit tests
