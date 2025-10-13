@@ -48,7 +48,7 @@ jobs:
           # renovate: datasource=github-releases depName=bats-core/bats-support
           support-version: 0.3.0
           # renovate: datasource=github-releases depName=bats-core/bats-assert
-          assert-version: 2.2.0
+          assert-version: 2.2.2
           detik-install: false
           # renovate: datasource=github-releases depName=bats-core/bats-file
           file-version: 0.4.0
