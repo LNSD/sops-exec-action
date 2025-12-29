@@ -11,7 +11,7 @@ concurrency:
 
 env:
   # renovate: datasource=github-releases depName=FiloSottile/age
-  age-version: 1.2.1
+  age-version: 1.3.1
   # renovate: datasource=github-releases depName=getsops/sops
   sops-version: 3.11.0
 
