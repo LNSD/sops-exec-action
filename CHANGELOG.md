@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/LNSD/sops-exec-action/compare/v1.1.2...v1.2.0) (2025-10-27)
+
+
+### Features
+
+* **ci:** add GPG-signed tags and GitHub releases to release workflow ([#87](https://github.com/LNSD/sops-exec-action/issues/87)) ([5efb23e](https://github.com/LNSD/sops-exec-action/commit/5efb23e1fd41cad79bcefe12bd5f52d9e3ae1348))
+
+
+### Bug Fixes
+
+* **ci:** update documentation link for GitHub credentials in release workflow ([#72](https://github.com/LNSD/sops-exec-action/issues/72)) ([d4c6d2f](https://github.com/LNSD/sops-exec-action/commit/d4c6d2fead4812b59d3cae4b2a9a5cd654d8d4a3))
+
 ## [1.1.2](https://github.com/LNSD/sops-exec-action/compare/v1.1.1...v1.1.2) (2024-03-07)
 
 
